@@ -1,0 +1,55 @@
+[env]
+CARGO_MAKE_EXTEND_WORKSPACE_MAKEFILE = true
+CARGO_MAKE = true
+
+[tasks.format]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.docker-clean]
+command = "rm"
+args = ["-r", "-f", "./docker/target"]
+
+[tasks.docker-prepare]
+command = "mkdir"
+args = ["-p", "./docker/target"]
+dependencies = ["docker-clean"]
+
+[tasks.docker-copy]
+command = "cp"
+args = ["${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/release/${CARGO_MAKE_CRATE_NAME}", "./docker/target/app"]
+dependencies = ["docker-prepare"]
+
+[tasks.docker-build]
+command = "docker"
+disabled = true
+args = ["build", "./docker",
+    "-t", "nierhoff/rust-playground/${CARGO_MAKE_CRATE_NAME}:${CARGO_MAKE_CRATE_VERSION}",
+    "-t", "nierhoff/rust-playground/${CARGO_MAKE_CRATE_NAME}"
+]
+dependencies = ["docker-prepare", "docker-copy"]
+
+[tasks.printenv]
+command = "printenv"
+
+[tasks.myci]
+dependencies = [
+    "format",
+    "build",
+    "test",
+    "build-release",
+    "docker-copy",
+    "docker-build"
+]
+
+[tasks.dockerci]
+dependencies = [
+    "build-release",
+    "docker-clean",
+    "docker-build"
+]

@@ -1,0 +1,34 @@
+---
+version: '2'
+services:
+
+  webapp:
+    build: ../frontend/webapp/docker/
+    hostname: webapp
+    container_name: webapp
+    ports:
+      - "8080:8080"
+  actix-api:
+    build: ../web-apis/actix-api/docker/
+    hostname: actix-api
+    container_name: actix-api
+    ports:
+      - "8081:8080"
+  rocket-api:
+    build: ../web-apis/rocket-api/docker/
+    hostname: rocket-api
+    container_name: rocket-api
+    ports:
+      - "8082:8080"
+  dieseldb:
+    build: ../services/dieseldb/docker/
+    hostname: dieseldb
+    container_name: dieseldb
+    ports:
+      - "8084:8080"
+  kafkatransform:
+    build: ../services/kafkatransform/docker/
+    hostname: kafkatransform
+    container_name: kafkatransform
+    ports:
+      - "8085:8080"
