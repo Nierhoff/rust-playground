@@ -1,0 +1,24 @@
+[package]
+name = "webapp"
+version = "0.1.0"
+authors = ["Sylvain Kerkour <sylvain@kerkour.fr>"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+
+[dependencies]
+common = { path = "../common" }
+
+yew = "0.18.0"
+wasm-bindgen = { workspace = true }
+wasm-bindgen-test = { workspace = true }
+yew-router = "0.15.0"
+web-sys = "0.3"
+serde = { workspace = true, features = ["derive"] }
+thiserror = "1"
+serde_json = { workspace = true }
+model = { path = "../../libs/model" }

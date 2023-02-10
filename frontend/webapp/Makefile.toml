@@ -1,0 +1,38 @@
+[tasks.format]
+install_crate = "rustfmt"
+command = "cargo"
+args = ["fmt", "--", "--emit=files"]
+
+[tasks.clean]
+command = "cargo"
+args = ["clean"]
+
+[tasks.build]
+command = "wasm-pack"
+args = ["build"]
+dependencies = ["clean"]
+
+[tasks.test]
+command = "wasm-pack"
+args = ["test", "--chrome", "--headless"]
+dependencies = ["build"]
+
+[tasks.docker-copy]
+command = "cp"
+args = ["-R", "./pkg", "./docker/target/pkg"]
+
+[tasks.docker-copy2]
+command = "cp"
+args = ["-R", "./../public", "./docker/target/public"]
+
+[tasks.docker-build]
+disabled = false
+dependencies = ["docker-prepare", "docker-copy", "docker-copy2"]
+
+[tasks.myci]
+dependencies = [
+    "format",
+    "build",
+    "test",
+    "docker-build"
+]

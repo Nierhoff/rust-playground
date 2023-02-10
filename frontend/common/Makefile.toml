@@ -1,0 +1,8 @@
+extend = "../../Makefile.toml"
+
+[tasks.myci]
+dependencies = [
+    "format",
+    "build",
+    "test"
+]
