@@ -1,0 +1,19 @@
+[tasks.docker-copy]
+command = "cp"
+args = ["${CARGO_TARGET_DIR}/release/{{project-name}}", "./docker/target/app"]
+dependencies = ["build-release"]
+
+[tasks.docker-build]
+command = "docker"
+args = ["build", "./docker"]
+dependencies = ["docker-copy"]
+
+[tasks.myci]
+dependencies = [
+    "format",
+    "build",
+    "test",
+    "build-release",
+    "docker-copy",
+    "docker-build"
+]

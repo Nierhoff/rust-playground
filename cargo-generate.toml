@@ -1,0 +1,5 @@
+[template]
+sub_templates = [
+    "cargo-templates/bin",
+    "cargo-templates/lib"
+]
