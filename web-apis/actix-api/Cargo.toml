@@ -1,0 +1,20 @@
+[package]
+name = "actix-api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+log = { workspace = true }
+log4rs = { workspace = true }
+tracing = { workspace = true }
+tracing-actix-web = "0.7.2"
+actix-web = "4.3.0"
+rdkafka = "0.29.0"
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+futures = "0.3"
+utoipa = "2.4.2"
+utoipa-swagger-ui = { version = "3.0.1", features = ["actix-web"] }
+model = { path = "../../libs/model" }
