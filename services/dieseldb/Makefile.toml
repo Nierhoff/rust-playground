@@ -1,0 +1,9 @@
+[tasks.docker-build]
+disabled = false
+
+[tasks.myci]
+dependencies = [
+    "format",
+    "build",
+    "test"
+]
