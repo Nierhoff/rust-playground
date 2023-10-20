@@ -22,17 +22,31 @@ dependencies = ["docker-clean"]
 
 [tasks.docker-copy]
 command = "cp"
-args = ["${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/release/${CARGO_MAKE_CRATE_NAME}", "./docker/target/app"]
+args = ["${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/release/${CARGO_MAKE_CRATE_NAME}", "./docker/target/rust-playground-app"]
+dependencies = ["docker-prepare"]
+
+[tasks.docker-copy-conf]
+command = "cp"
+args = ["${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/logging_config.yaml", "./docker/target/"]
 dependencies = ["docker-prepare"]
 
 [tasks.docker-build]
+command = "docker"
+disabled = true # linux/arm64/v8, linux/amd64
+args = ["buildx", "build", "--platform", "linux/arm64/v8", "./docker",
+    "-t", "nierhoff/rust-playground/${CARGO_MAKE_CRATE_NAME}:${CARGO_MAKE_CRATE_VERSION}",
+    "-t", "nierhoff/rust-playground/${CARGO_MAKE_CRATE_NAME}"
+]
+dependencies = ["docker-prepare", "docker-copy", "docker-copy-conf"]
+
+[tasks.docker-build-old]
 command = "docker"
 disabled = true
 args = ["build", "./docker",
     "-t", "nierhoff/rust-playground/${CARGO_MAKE_CRATE_NAME}:${CARGO_MAKE_CRATE_VERSION}",
     "-t", "nierhoff/rust-playground/${CARGO_MAKE_CRATE_NAME}"
 ]
-dependencies = ["docker-prepare", "docker-copy"]
+dependencies = ["docker-prepare", "docker-copy", "docker-copy-conf"]
 
 [tasks.printenv]
 command = "printenv"

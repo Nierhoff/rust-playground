@@ -1,3 +1,3 @@
-FROM gcr.io/distroless/cc
-COPY ./target/app ./app
-CMD ["./app"]
+FROM --platform=linux/arm64/v8 gcr.io/distroless/cc
+COPY ./target/ /
+CMD ["./rust-playground-app"]

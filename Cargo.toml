@@ -7,10 +7,11 @@ members = [
     "web-apis/actix-api",
     "web-apis/actix-auth-api",
     "web-apis/rocket-api",
-    "frontend/common",
-    "frontend/webapp",
+    #"frontend/common",
+    #"frontend/webapp",
     #Internal
-    "libs/model"
+    "libs/model",
+    "libs/logging"
 ]
 
 [workspace.dependencies]

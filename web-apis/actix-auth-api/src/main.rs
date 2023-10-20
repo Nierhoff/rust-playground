@@ -5,13 +5,15 @@ use tracing_actix_web::TracingLogger;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
+use logging;
+
 #[derive(OpenApi)]
 #[openapi()]
 struct ApiDoc;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    logging::logsetup();
     let openapi = ApiDoc::openapi();
     HttpServer::new(move || {
         App::new().wrap(TracingLogger::default()).service(
@@ -25,7 +27,6 @@ async fn main() -> std::io::Result<()> {
 
 #[cfg(test)]
 mod tests {
-
     #[test]
     fn it_works() {
         assert_eq!(true, true);

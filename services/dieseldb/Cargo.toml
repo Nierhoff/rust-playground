@@ -11,3 +11,4 @@ dotenvy = "0.15"
 log = { workspace = true }
 log4rs = { workspace = true }
 tracing = { workspace = true }
+logging = { path = "../../libs/logging" }

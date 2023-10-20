@@ -3,11 +3,12 @@ use log::*;
 use log4rs;
 
 use consumer::MyConsumer;
+use logging;
 
 mod consumer;
 
 fn main() {
-    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    logging::logsetup();
 
     let broker = "localhost:9092";
 

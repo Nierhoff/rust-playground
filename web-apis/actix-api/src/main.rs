@@ -5,6 +5,8 @@ use tracing_actix_web::TracingLogger;
 use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 
+use logging;
+
 async fn hello(_req: HttpRequest) -> Result<impl Responder, Error> {
     info!("{}", _req.uri().to_string());
     Ok(HttpResponse::Ok().body("Hello world!"))
@@ -26,7 +28,7 @@ struct ApiDoc;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    log4rs::init_file("logging_config.yaml", Default::default()).unwrap();
+    logging::logsetup();
     let openapi = ApiDoc::openapi();
     HttpServer::new(move || {
         App::new()

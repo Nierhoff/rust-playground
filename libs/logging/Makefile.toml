@@ -1,0 +1,6 @@
+[tasks.myci]
+dependencies = [
+    "format",
+    "build",
+    "test"
+]

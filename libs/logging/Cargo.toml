@@ -1,5 +1,5 @@
 [package]
-name = "rocket-api"
+name = "logging"
 version = "0.1.0"
 edition = "2021"
 
@@ -9,5 +9,3 @@ edition = "2021"
 log = { workspace = true }
 log4rs = { workspace = true }
 tracing = { workspace = true }
-rocket = "0.5.0-rc.2"
-logging = { path = "../../libs/logging" }
