@@ -25,6 +25,7 @@ rustup component add rustfmt --toolchain nightly
 rustup component add clippy 
 rustup component add clippy --toolchain nightly
 
+source "$HOME/.cargo/env"
 cargo install cargo-expand
 cargo install cargo-edit
 cargo install cargo-make
