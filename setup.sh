@@ -43,12 +43,17 @@ fi
 if command -v nvm &>/dev/null; then
    echo "nvm is already installed"
 else
-   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | sh
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+   export NVM_DIR="$HOME/.nvm"
+   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
    echo "nvm has been installed"
 fi
 
 if command -v node &>/dev/null; then
    echo "node is already installed"
+   node --version
+   nvm install node
 else
    nvm install node
    echo "node has been installed"
@@ -56,9 +61,10 @@ fi
 
 if command -v npm &>/dev/null; then
    echo "npm is already installed"
+   npm --version
 else
-   nvm install npm
    echo "npm has been installed"
+   nvm install npm
 fi
 
 if npm list -g --depth=0 | grep -c "chromedriver"  &>/dev/null; then
