@@ -1,6 +1,7 @@
 ## update and install some things we should probably have
-apt-get update
-apt-get install -y \
+apt-get update --assume-yes
+apt-get upgrade --assume-yes
+apt-get install --assume-yes \
   curl \
   git \
   gnupg2 \
@@ -29,6 +30,8 @@ cargo install cargo-edit
 cargo install cargo-make
 cargo install wasm-pack
 cargo install cargo-generate
+cargo install geckodriver
+cargo install --list
 
 ## setup and install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"

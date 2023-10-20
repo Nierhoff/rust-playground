@@ -1,3 +1,5 @@
+cargo install --list
+
 if command -v cargo &>/dev/null; then
    echo "cargo is already installed"
 else
