@@ -2,5 +2,10 @@
 	"name": "Codespaces Rust Starter",
 	"build": {
 		"dockerfile": "Dockerfile"
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {},
+		"ghcr.io/devcontainers/features/rust:1": {},
+		"ghcr.io/devcontainers/features/node:1": {}
 	}
 }
