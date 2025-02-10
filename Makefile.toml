@@ -37,9 +37,15 @@ install_crate = "rustfmt"
 command = "cargo"
 args = ["fmt", "--", "--emit=files"]
 
-[tasks.clean]
+[tasks.cargo-clean]
 command = "cargo"
 args = ["clean"]
+
+[tasks.cargo-update]
+command = "cargo"
+args = ["update", "--verbose", "--recursive"]
+dependencies = ["cargo-clean"]
+
 
 [tasks.docker-clean]
 script_runner = "@duckscript"
