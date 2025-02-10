@@ -1,6 +1,6 @@
 use kafka::producer::{Producer, Record};
 use log::*;
-use log4rs;
+//use log4rs;
 
 use consumer::MyConsumer;
 use logging;

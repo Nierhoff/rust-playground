@@ -1,0 +1,10 @@
+---
+version: '3'
+services:
+
+  webapp:
+    build: ../frontend/webapp/docker/
+    hostname: webapp
+    container_name: webapp
+    ports:
+      - "8080:80"

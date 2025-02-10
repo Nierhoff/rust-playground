@@ -11,7 +11,7 @@ log4rs = { workspace = true }
 tracing = { workspace = true }
 tracing-actix-web = "0.7.2"
 actix-web = "4.3.0"
-rdkafka = "0.29.0"
+rdkafka = "0.37"
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 futures = "0.3"
@@ -19,3 +19,6 @@ utoipa = "2.4.2"
 utoipa-swagger-ui = { version = "3.0.1", features = ["actix-web"] }
 model = { path = "../../libs/model" }
 logging = { path = "../../libs/logging" }
+
+[build-dependencies]
+cmake = "0.1"

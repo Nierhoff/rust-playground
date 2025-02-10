@@ -1,6 +1,8 @@
 #[macro_use]
 extern crate rocket;
 
+//use rocket::fs::FileServer;
+
 #[cfg(test)]
 mod tests;
 
@@ -38,6 +40,13 @@ fn mir() -> &'static str {
 #[get("/<name>/<age>")]
 fn wave(name: &str, age: u8) -> String {
     format!("👋 Hello, {} year old named {}!", age, name)
+}
+
+// Try visiting:
+//   http://127.0.0.1:8000/wave/Rocketeer/100
+#[get("/webassebly")]
+fn webassebly() -> String {
+    format!("👋 Hello, {} year old named {}!", "age", "name")
 }
 
 // Note: without the `..` in `opt..`, we'd need to pass `opt.emoji`, `opt.name`.
@@ -80,4 +89,6 @@ fn rocket() -> _ {
         .mount("/", routes![hello])
         .mount("/hello", routes![world, mir])
         .mount("/wave", routes![wave])
+    //.mount("/public", FileServer::new(concat!(env!("CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY"), "/frontend/public")))
+    //.mount("/pkg", FileServer::new(concat!(env!("CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY"), "/frontend/webapp/pkg")))
 }

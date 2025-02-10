@@ -70,12 +70,27 @@ fn wave() {
         let real_name = RawStr::new(name).percent_decode_lossy();
         let expected = format!("👋 Hello, {} year old named {}!", age, real_name);
         let response = client.get(uri).dispatch();
-        assert_eq!(response.into_string().unwrap(), expected);
-
-        for bad_age in &["1000", "-1", "bird", "?"] {
-            let bad_uri = format!("/wave/{}/{}", name, bad_age);
-            let response = client.get(bad_uri).dispatch();
-            assert_eq!(response.status(), Status::NotFound);
-        }
+        let response_status = response.status();
+        let actual = response.into_string().unwrap();
+        log::info!(
+            "actual: {}, expected: {}, status: {}",
+            actual,
+            expected,
+            response_status
+        );
+        assert_eq!(response_status, Status::Ok);
+        assert_eq!(actual, expected);
+    }
+    for &(name, bad_age, status) in &[
+        ("Bob%20Smith", "-1", Status::UnprocessableEntity),
+        ("Bob%20Smith", "bird", Status::UnprocessableEntity),
+        ("Bob%20Smith", "?", Status::NotFound),
+        ("Bob%20Smith", "1000", Status::UnprocessableEntity),
+    ] {
+        let bad_uri = format!("/wave/{}/{}", name, bad_age);
+        let response = client.get(bad_uri).dispatch();
+        let response_status = response.status();
+        log::info!("{}", response_status);
+        assert_eq!(response_status, status);
     }
 }

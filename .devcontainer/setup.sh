@@ -19,11 +19,14 @@ apt-get install --assume-yes \
 
 ## Install rustup and common components
 curl https://sh.rustup.rs -sSf | sh -s -- -y 
-rustup install nightly
+rustup install stable
+## rustup install nightly
 rustup component add rustfmt
-rustup component add rustfmt --toolchain nightly
+## rustup component add rustfmt --toolchain nightly
+rustup component add rustfmt --toolchain stable
 rustup component add clippy 
-rustup component add clippy --toolchain nightly
+rustup component add clippy --toolchain stable
+## rustup component add clippy --toolchain nightly
 
 source "$HOME/.cargo/env"
 cargo install cargo-expand

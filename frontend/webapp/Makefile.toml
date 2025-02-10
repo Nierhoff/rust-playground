@@ -9,7 +9,7 @@ args = ["clean"]
 
 [tasks.build]
 command = "wasm-pack"
-args = ["build"]
+args = ["build", "--target", "web"]
 dependencies = ["clean"]
 
 [tasks.test]
@@ -18,12 +18,18 @@ args = ["test", "--chrome", "--headless"]
 dependencies = ["build"]
 
 [tasks.docker-copy]
-command = "cp"
-args = ["-R", "./pkg", "./docker/target/pkg"]
+script_runner = "@duckscript"
+script = '''
+rm -r ${CARGO_MAKE_WORKING_DIRECTORY}/docker/target/
+cp ${CARGO_MAKE_WORKING_DIRECTORY}/pkg ${CARGO_MAKE_WORKING_DIRECTORY}/docker/target/
+'''
 
 [tasks.docker-copy2]
-command = "cp"
-args = ["-R", "./../public", "./docker/target/public"]
+script_runner = "@duckscript"
+script = '''
+rm -r ${CARGO_MAKE_WORKING_DIRECTORY}/docker/target/public
+cp ${CARGO_MAKE_WORKING_DIRECTORY}/../public ${CARGO_MAKE_WORKING_DIRECTORY}/docker/target/public
+'''
 
 [tasks.docker-build]
 disabled = false

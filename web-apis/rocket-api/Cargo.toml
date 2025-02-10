@@ -9,5 +9,5 @@ edition = "2021"
 log = { workspace = true }
 log4rs = { workspace = true }
 tracing = { workspace = true }
-rocket = "0.5.0-rc.2"
+rocket = "0.5"
 logging = { path = "../../libs/logging" }
