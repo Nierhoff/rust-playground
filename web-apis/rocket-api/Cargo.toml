@@ -9,5 +9,8 @@ edition = "2021"
 log = { workspace = true }
 log4rs = { workspace = true }
 tracing = { workspace = true }
-rocket = "0.5"
+rocket = "0.5.1"
+rocket_okapi = { version = "0.9", features = ["swagger"] }
+schemars = "0.8"
 logging = { path = "../../libs/logging" }
+model = { path = "../../libs/model" }

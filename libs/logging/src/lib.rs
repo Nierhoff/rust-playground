@@ -1,7 +1,5 @@
 use log::LevelFilter;
-use log4rs;
-use log4rs::config::Root;
-use log4rs::Config;
+use log4rs::{config::Root, Config};
 
 pub fn logsetup() {
     let logfile = "logging_config.yaml";

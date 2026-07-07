@@ -9,16 +9,31 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
-
 [dependencies]
 common = { path = "../common" }
 
-yew = { workspace = true }
+yew = { workspace = true, features = ["csr"] }
+yew-router = { workspace = true }
+yew-hooks = "0.3"
 wasm-bindgen = { workspace = true }
 wasm-bindgen-test = { workspace = true }
-yew-router = { workspace = true }
+wasm-logger = "0.2"
+reqwest = { version = "0.12", features = ["json"] }
+chrono = { workspace = true, features = ["serde"] }
+pulldown-cmark = "0.13"
+log = { workspace = true }
+parking_lot = "0.12"
+dotenv_codegen = "0.15"
+lazy_static = "1.4"
+gloo = "0.11"
 web-sys = "0.3"
 serde = { workspace = true, features = ["derive"] }
-thiserror = "1"
+thiserror = "2"
 serde_json = { workspace = true }
 model = { path = "../../libs/model" }
+
+[dev-dependencies]
+js-sys = "0.3"
+wasm-bindgen-futures = "0.4"
+wasm-bindgen-test = "0.3"
+gloo-utils = "0.2"

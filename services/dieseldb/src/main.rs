@@ -1,8 +1,6 @@
 //use log::*;
 //use log4rs;
 
-use logging;
-
 fn main() {
     logging::logsetup();
 }

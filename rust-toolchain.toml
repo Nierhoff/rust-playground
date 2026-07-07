@@ -1,5 +1,5 @@
 [toolchain]
 channel = "stable" # "nightly"
-components = [ "rustfmt", "rustc-dev" ]
-targets = [ "wasm32-unknown-unknown", "thumbv2-none-eabi" ]
+components = [ "rustfmt", "rust-docs", "rust-analyzer", "clippy" ]
+targets = [ "wasm32-unknown-unknown" ]
 profile = "minimal"

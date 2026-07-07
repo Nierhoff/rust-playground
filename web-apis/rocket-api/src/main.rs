@@ -1,94 +1,66 @@
-#[macro_use]
-extern crate rocket;
+use model::*;
+use rocket::{get, serde::json::Json};
+use rocket_okapi::{openapi, openapi_get_routes, swagger_ui::*};
 
-//use rocket::fs::FileServer;
+mod routes;
+
+#[openapi] // Generates OpenAPI documentation for this route
+#[get("/hello")]
+fn hello() -> String {
+    log::info!("hello");
+    "Hello, OpenAPI!".to_string()
+}
+
+#[openapi]
+#[get("/users")]
+fn get_users() -> Json<Vec<User>> {
+    log::info!("get_users");
+    Json(vec![User {
+        username: "johndoe".to_string(),
+        email: "john@doe.com".to_string(),
+    }])
+}
+
+#[openapi]
+#[get("/user/<user_id>")]
+fn get_user(user_id: &str) -> Json<User> {
+    log::info!("get_user called with {}", user_id);
+    Json(User {
+        username: "johndoe".to_string(),
+        email: "john@doe.com".to_string(),
+    })
+}
+
+fn rocker_build() -> rocket::Rocket<rocket::Build> {
+    rocket::build()
+    .mount(
+        "/",
+        openapi_get_routes![hello, 
+            routes::auth::sign_up, 
+            routes::auth::login, 
+            routes::auth::logout, 
+            get_users, 
+            get_user],
+    ) // Mount API routes
+    .mount(
+        "/swagger",
+        make_swagger_ui(&SwaggerUIConfig {
+            url: "/openapi.json".to_string(), // OpenAPI JSON file
+            ..Default::default()
+        }),
+    )
+}
+
+#[rocket::main]
+async fn main() {
+    let launch_result = rocker_build()
+        .launch()
+        .await;
+    match launch_result {
+        Ok(_) => println!("Rocket shut down gracefully."),
+        Err(err) => println!("Rocket had an error: {}", err),
+    };
+}
 
 #[cfg(test)]
 mod tests;
-
-#[derive(FromFormField)]
-enum Lang {
-    #[field(value = "en")]
-    English,
-    #[field(value = "ru")]
-    #[field(value = "ру")]
-    Russian,
-}
-
-#[derive(FromForm)]
-struct Options<'r> {
-    emoji: bool,
-    name: Option<&'r str>,
-}
-
-// Try visiting:
-//   http://127.0.0.1:8000/hello/world
-#[get("/world")]
-fn world() -> &'static str {
-    "Hello, world!"
-}
-
-// Try visiting:
-//   http://127.0.0.1:8000/hello/мир
-#[get("/мир")]
-fn mir() -> &'static str {
-    "Привет, мир!"
-}
-
-// Try visiting:
-//   http://127.0.0.1:8000/wave/Rocketeer/100
-#[get("/<name>/<age>")]
-fn wave(name: &str, age: u8) -> String {
-    format!("👋 Hello, {} year old named {}!", age, name)
-}
-
-// Try visiting:
-//   http://127.0.0.1:8000/wave/Rocketeer/100
-#[get("/webassebly")]
-fn webassebly() -> String {
-    format!("👋 Hello, {} year old named {}!", "age", "name")
-}
-
-// Note: without the `..` in `opt..`, we'd need to pass `opt.emoji`, `opt.name`.
-//
-// Try visiting:
-//   http://127.0.0.1:8000/?emoji
-//   http://127.0.0.1:8000/?name=Rocketeer
-//   http://127.0.0.1:8000/?lang=ру
-//   http://127.0.0.1:8000/?lang=ру&emoji
-//   http://127.0.0.1:8000/?emoji&lang=en
-//   http://127.0.0.1:8000/?name=Rocketeer&lang=en
-//   http://127.0.0.1:8000/?emoji&name=Rocketeer
-//   http://127.0.0.1:8000/?name=Rocketeer&lang=en&emoji
-//   http://127.0.0.1:8000/?lang=ru&emoji&name=Rocketeer
-#[get("/?<lang>&<opt..>")]
-fn hello(lang: Option<Lang>, opt: Options<'_>) -> String {
-    let mut greeting = String::new();
-    if opt.emoji {
-        greeting.push_str("👋 ");
-    }
-
-    match lang {
-        Some(Lang::Russian) => greeting.push_str("Привет"),
-        Some(Lang::English) => greeting.push_str("Hello"),
-        None => greeting.push_str("Hi"),
-    }
-
-    if let Some(name) = opt.name {
-        greeting.push_str(", ");
-        greeting.push_str(name);
-    }
-
-    greeting.push('!');
-    greeting
-}
-
-#[launch]
-fn rocket() -> _ {
-    rocket::build()
-        .mount("/", routes![hello])
-        .mount("/hello", routes![world, mir])
-        .mount("/wave", routes![wave])
-    //.mount("/public", FileServer::new(concat!(env!("CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY"), "/frontend/public")))
-    //.mount("/pkg", FileServer::new(concat!(env!("CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY"), "/frontend/webapp/pkg")))
-}

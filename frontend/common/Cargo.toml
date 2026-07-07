@@ -4,8 +4,10 @@ version = "0.1.0"
 authors = ["Sylvain Kerkour <sylvain@kerkour.fr>"]
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 serde = { workspace = true, features = ["derive"] }
+serde_valid = { workspace = true }
 model = { path = "../../libs/model" }

@@ -8,11 +8,16 @@ command = "cargo"
 args = ["clean"]
 
 [tasks.build]
-command = "wasm-pack"
-args = ["build", "--target", "web"]
+command = "trunk"
+args = ["build"]
 dependencies = ["cargo-clean"]
 
 [tasks.test]
+command = "cargo"
+args = ["test", "--target", "wasm32-unknown-unknown"]
+dependencies = ["build"]
+
+[tasks.test-browser]
 command = "wasm-pack"
 args = ["test", "--chrome", "--headless"]
 dependencies = ["build"]

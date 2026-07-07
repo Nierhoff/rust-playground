@@ -1,6 +1,10 @@
-use yew::html::ImplicitClone;
+//! Error type for error handling
 
-#[derive(thiserror::Error, Clone, Debug)]
+use crate::types::ErrorInfo;
+use thiserror::Error as ThisError;
+
+/// Define all possible errors
+#[derive(ThisError, Clone, Debug, PartialEq, Eq)]
 pub enum Error {
     /// 401
     #[error("Unauthorized")]
@@ -14,6 +18,10 @@ pub enum Error {
     #[error("Not Found")]
     NotFound,
 
+    /// 422
+    #[error("Unprocessable Entity: {0:?}")]
+    UnprocessableEntity(ErrorInfo),
+
     /// 500
     #[error("Internal Server Error")]
     InternalServerError,
@@ -23,8 +31,6 @@ pub enum Error {
     DeserializeError,
 
     /// request error
-    #[error("Http Error")]
+    #[error("Http Request Error")]
     RequestError,
 }
-
-impl ImplicitClone for Error {}

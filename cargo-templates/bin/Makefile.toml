@@ -4,8 +4,8 @@ args = ["${CARGO_TARGET_DIR}/release/{{project-name}}", "./docker/target/app"]
 dependencies = ["build-release"]
 
 [tasks.docker-build]
-command = "docker"
-args = ["build", "./docker"]
+command = "nerdctl"
+args = ["build", "-f", "./docker/Dockerfile", "./docker",
 dependencies = ["docker-copy"]
 
 [tasks.myci]
